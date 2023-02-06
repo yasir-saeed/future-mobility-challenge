@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import io
 import base64
+import folium
 
 app = Flask(__name__)
 app.secret_key = 'secret_key'
@@ -49,6 +50,27 @@ def index():
     image_base64 = base64.b64encode(buf.getvalue()).decode("utf-8")
 
     return render_template("index.html", image_base64=image_base64)
+
+
+@app.route("/map")
+def show_map():
+    # Load the data into a pandas DataFrame
+    df = pd.read_csv("https://apmonitor.com/pds/uploads/Main/auto_iowa.txt")
+
+    # Create a map centered on the mean latitude and longitude of the data
+    mean_lat = df[" Latitude (deg)"].mean()
+    mean_lon = df[" Longitude (deg)"].mean()
+    map = folium.Map(location=[mean_lat, mean_lon], zoom_start=12)
+
+    # Plot each lat-lon pair as a point on the map
+    for lat, lon in zip(df[" Latitude (deg)"], df[" Longitude (deg)"]):
+        folium.CircleMarker(location=[lat, lon], radius=2).add_to(map)
+
+    # Save the map html
+    map_html = map.get_root().render()
+
+    return render_template("map.html", map_html=map_html)
+
 
 if __name__ == "__main__":
     app.run(port=5001)
