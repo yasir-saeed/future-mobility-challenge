@@ -4,28 +4,65 @@
     	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>	
+
+        <style>
+
+            .navbar {
+				background-color: #1881AB;
+				border-radius: 0;
+			}
+			.navbar a {
+				color: white;
+			}
+
+
+			.pid-description-container {
+  				text-align: center;
+			}
+
+			.pid,
+			.description {
+  				font-size: 20px;
+  				margin: 20px 0;
+			}
+
+
+         </style>   
+
+
+
+
     </head>
     <body>
 
     	<header>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <div class="container-fluid">
+                <div class="container-fluid justify-content-start">
                     <div class="navbar-header">
                         <a class="navbar-brand" href="#">OBD-II Visualization</a>
                     </div>
                     <ul class="nav navbar-nav">
                         <li><a href="/">Home</a></li>
                         <li><a href="/map">Map</a></li>
-                        <li><a href="#">About</a></li>
+                        <li><a href="/about">About</a></li>
                     </ul>
                 </div>
             </nav>
         </header>
+
+
     <img src="data:image/png;base64, {{ image_base64 }}">
+    
+    <div class="pid-description-container">
+  		<p class="pid"><b>PID:</b> {{ pid }}</p>
+  		<p class="description"><b>Description:</b> {{ description }}</p>
+	</div>
 
     <form style="position:absolute; left:400px" method="post" action="/">
-        <input type="submit" value="PREVIOUS" name="action1"/>
-        <input type="submit" value="NEXT" name="action2" />
+
+		<input type="submit" value="PREVIOUS" name="action1" style="margin-right:10px; width:100px; height:30px"/>
+        <input type="submit" value="NEXT"     name="action2" style="width:100px; height:30px"/>
+
     </form>
 
 
